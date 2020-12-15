@@ -1,0 +1,8 @@
+{
+  "dev": {
+    "api_key": "3e15c45f06b3c46fd2bdc83814b908fc63251cf9",
+    "base_url": "https://api.cryptoapis.io/v1/bc/btc/testnet"
+  },
+  "prod": {
+  }
+}

@@ -1,27 +1,13 @@
 const express = require ('express');
 const axios = require('axios');
 const router = express.Router();
+const config = require('../config/config.json');
+const apiController = require('../controller/api-controller');
 
-var options = {
-  "method": "GET",
-  "hostname": "api.cryptoapis.io",
-  "path": "/v1/bc/btc/mainnet/info",
-  "headers": {
-    "Content-Type": "application/json",
-    "X-API-Key": "3e15c45f06b3c46fd2bdc83814b908fc63251cf9"
-  }
-};
-
+const addr = '2N6HeA8vi3LieVEpqz5ZBdcYzXpzTR55sT4';
 router.get('/balance', async function(req,res) {
   try {
-    const  response = await axios.get('https://api.cryptoapis.io/v1/bc/btc/testnet/address/2N6HeA8vi3LieVEpqz5ZBdcYzXpzTR55sT4',
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": "3e15c45f06b3c46fd2bdc83814b908fc63251cf9"
-      } 
-    });
-    console.log(response.data);
+    const response = await apiController.getBalance(addr);
     res.send(response.data);
   } catch (e) {
     console.error(e);
@@ -36,23 +22,32 @@ router.post('/deposit', function(req,res) {
     return e;
   }
 });
-router.get('/transaction', function(req,res) {
+router.get('/transaction', async function(req,res) {
   try {
-    res.send("Transaction History");
+    const response = await apiController.getTransHist(addr);
+    res.send(response.data);
   } catch(e) {
     console.error(e);
     return e;
   }
 });
-router.post('/generate/address', function(req,res) {
+router.get('/account', async function(req, res) {
   try {
-    const response = await axios.get('https://api.cryptoapis.io/v1/bc/btc/testnet/address/2N6HeA8vi3LieVEpqz5ZBdcYzXpzTR55sT4',
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": "3e15c45f06b3c46fd2bdc83814b908fc63251cf9"
-      } 
-    });
+    const balanceData = await apiController.getBalance(addr);
+    const transHistData = await apiController.getTransHist(addr);
+    const response = {
+      balanceData : balanceData.data,
+      transHistData : transHistData.data
+    }
+    res.send(response);
+  } catch (e) {
+    console.error(e);
+    return e;
+  };
+});
+router.get('/uxto', async function(req, res) {
+  try {
+    const response = await apiController.getUxto(addr);
     res.send(response.data);
   } catch (e) {
     console.error(e);
