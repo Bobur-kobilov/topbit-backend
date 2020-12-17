@@ -9,4 +9,4 @@ RUN npm install
  
 COPY . .
  
-CMD [ "node", "./bin/www" ]
+CMD [ "node", "app.js" ]
