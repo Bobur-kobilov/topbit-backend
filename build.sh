@@ -1,0 +1,1 @@
+docker build -t topbit/node-web-app .

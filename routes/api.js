@@ -39,8 +39,9 @@ router.get('/transaction', async function(req,res) {
 });
 router.get('/account', async function(req, res) {
   try {
-    const balanceData = await apiController.getBalance(addr);
-    const transHistData = await apiController.getTransHist(addr);
+    const address = req.query.address;
+    const balanceData = await apiController.getBalance(address);
+    const transHistData = await apiController.getTransHist(address);
     const response = {
       balanceData : balanceData.data,
       transHistData : transHistData.data
