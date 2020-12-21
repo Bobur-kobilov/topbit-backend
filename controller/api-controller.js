@@ -27,6 +27,7 @@ async function getTransHist(address,index,limit) {
       for (i = 0; i < response.data.payload.length; i ++) {
 
         const sent = response.data.payload[i].sent[address];
+        delete response.data.meta
         if (sent) {
           response.data.payload[i].isSent = true;
           const receivedAddr =  Object.keys(response.data.payload[i].received)
