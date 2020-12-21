@@ -24,6 +24,24 @@ async function getTransHist(address,index,limit) {
           "X-API-Key": config.dev.api_key
         } 
       });
+      for (i = 0; i < response.data.payload.length; i ++) {
+
+        const sent = response.data.payload[i].sent[address];
+        if (sent) {
+          response.data.payload[i].isSent = true;
+          const receivedAddr =  Object.keys(response.data.payload[i].received)
+          response.data.payload[i].receivedAddr = receivedAddr[0]
+          delete response.data.payload[i].sent;
+          delete response.data.payload[i].received;
+        } else {  
+          response.data.payload[i].isSent = false;
+          const receivedAddr =  Object.keys(response.data.payload[i].received)
+          response.data.payload[i].receivedAddr = receivedAddr[0];
+          delete response.data.payload[i].sent;
+          delete response.data.payload[i].received;
+        }
+      }
+      // console.log(JSON.stringify(response.data.payload[0].sent))
       return response;
   } catch (e) {
     console.error(e);

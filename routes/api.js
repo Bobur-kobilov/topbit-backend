@@ -1,7 +1,5 @@
 const express = require ('express');
-const axios = require('axios');
 const router = express.Router();
-const config = require('../config/config.json');
 const apiController = require('../controller/api-controller');
 
 router.get('/balance', async function(req,res) {
@@ -14,6 +12,7 @@ router.get('/balance', async function(req,res) {
     return e;
   };
 });
+// TODO
 router.post('/tx/send', function(req,res) {
   try {
     const address = req.body.hex;
