@@ -31,6 +31,13 @@ async function getTransHist(address,index,limit) {
         response.data.payload[i].date = localDate;
         const sent = response.data.payload[i].sent[address];
         delete response.data.meta;
+
+        var isConfirmed = response.data.payload[i].confirmations;
+        if (isConfirmed >= 6) {
+          response.data.payload[i].confirmed = 'confirmed';
+        } else {
+          response.data.payload[i].confirmed = 'pending';
+        }
         if (sent) {
           response.data.payload[i].isSent = true;
           const receivedAddr =  Object.keys(response.data.payload[i].received)
