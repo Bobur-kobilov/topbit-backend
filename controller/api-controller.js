@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('../config/config.json');
+const moment = require('moment');
 
 async function getBalance(address) {
   try {
@@ -25,9 +26,11 @@ async function getTransHist(address,index,limit) {
         } 
       });
       for (i = 0; i < response.data.payload.length; i ++) {
-
+        
+        const localDate = new Date(response.data.payload[i].datetime);
+        response.data.payload[i].date = localDate;
         const sent = response.data.payload[i].sent[address];
-        delete response.data.meta
+        delete response.data.meta;
         if (sent) {
           response.data.payload[i].isSent = true;
           const receivedAddr =  Object.keys(response.data.payload[i].received)
@@ -42,7 +45,6 @@ async function getTransHist(address,index,limit) {
           delete response.data.payload[i].received;
         }
       }
-      // console.log(JSON.stringify(response.data.payload[0].sent))
       return response;
   } catch (e) {
     console.error(e);
@@ -80,4 +82,4 @@ module.exports = {
   getTransHist,
   getUxto,
   sendSignedTx
-} 
+}   
